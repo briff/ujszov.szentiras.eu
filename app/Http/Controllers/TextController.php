@@ -40,7 +40,11 @@ class TextController extends Controller
         $books = Book::where('tipus', 'default')->where('konyv_id', 'like', "{$corpus}%")->orderBy('konyv_id')->get();
         $bookLength = Book::getBookLength($book->nev);
         $chapterLength = Book::getChapterLength($book->nev, $chapter);
+        $usxCodes = \Config::get('mappings.usx');
+        $verseMappings = \Config::get('mappings.verses');
         return View::make("text.displayChapter", [
+            "usxCodes" => $usxCodes,
+            "verseMappings" => $verseMappings,
             "book" => $book,
             "chapter" => $chapter,
             "words" => $words,

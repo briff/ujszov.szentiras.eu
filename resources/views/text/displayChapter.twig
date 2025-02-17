@@ -31,11 +31,18 @@
                             </span>
                         {% endif %}
                         <span class="verse {{ currentVerse == verse and verse != 1 ? 'mark selectedVerse' }}">
-                        {% set verseId = book.nev ~ chapter ~ "," ~ currentVerse %}
-                        {% set szhuVerseId = (book.szentirashu ?: book.nev) ~ chapter ~ "," ~ currentVerse %}
+                        {% set usxBookName = usxCodes[book.nev] %}
+                        {% set alternativeVerse = verseMappings[usxBookName ~ " " ~ chapter ~ ":" ~ currentVerse] %}
+                        {% set verseId = book.nev ~ chapter ~ "," ~ currentVerse %}                        
+                        {% if not alternativeVerse %}
+                            {% set szhuVerseId = (book.szentirashu ?: book.nev) ~ chapter ~ "," ~ currentVerse %}
+                        {% else %}
+                            {% set szhuVerseId = book.szentirashu ?: book.nev ~ alternativeVerse[1] ~ "," ~ alternativeVerse[2] %}
+                        {%endif %}                        
+                        
                         {% set verseLink %}
                             <a name="{{ currentVerse }}" href="#" data-szhuverseid="{{ szhuVerseId }}" data-verse-id="{{ verseId }}" data-trigger="toggle"
-                               data-poload="//szentiras.hu/api/ref/{{ szhuVerseId }}">
+                               data-poload="https://szentiras.hu/api/ref/{{ szhuVerseId }}">
                                 <sup>{{ currentVerse }}</sup></a>
                         {% endset %}
                     {% endif %}
