@@ -5,10 +5,18 @@
 <h3 class="greek">{{ word.szal }}</h3>
 <table class="table greek">
 {% for occurrence in words %}
+        {% set usxBookName = usxCodes[occurrence.book.nev] %}
+        {% set alternativeVerse = verseMappings[usxBookName ~ " " ~ occurrence.ref.chapter ~ ":" ~ occurrence.ref.verse] %}
+        {% set verseId = occurrence.ref.bookName ~ occurrence.ref.chapter ~ "," ~ occurrence.ref.verse %}
+        {% if not alternativeVerse %}
+            {% set szhuVerseId = (occurrence.book.szentirashu ?: occurrence.book.nev) ~ occurrence.ref.chapter ~ "," ~ occurrence.ref.verse %}
+        {% else %}
+            {% set szhuVerseId = occurrence.book.szentirashu ?: occurrence.book.nev ~ alternativeVerse[1] ~ "," ~ alternativeVerse[2] %}
+        {%endif %}                        
+
 <tr>
     <td><a href="/text/{{occurrence.ref.bookName}}/{{ occurrence.ref.chapter }}/{{ occurrence.ref.verse }}">{{ occurrence.ref.bookName }} {{ occurrence.ref.chapter }},{{ occurrence.ref.verse }}</a>: 
-        {% set verseId = occurrence.ref.bookName ~ occurrence.ref.chapter ~ "," ~ occurrence.ref.verse %}
-        <a href="https://szentiras.hu/{{verseId}}" target="_blank"><sup>szentiras.hu</sup></a>
+        <a href="https://szentiras.hu/{{szhuVerseId}}" target="_blank"><sup>szentiras.hu</sup></a>
     {% for textPart in occurrence.text %}
     {% if textPart.gk == word.gk %}<mark>{{ textPart.unic }}</mark>
     {% else %}{{ textPart.unic }}{% endif %}

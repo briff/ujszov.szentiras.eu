@@ -75,10 +75,13 @@ class WordController extends Controller
         foreach ($occurrences as $occurrence) {
             $wordRef = $this->textController->createWordRef($occurrence);
             $text = $this->textController->getVerseTextArray($wordRef['bookName'], $wordRef['chapter'], $wordRef['verse'], false);
-            $results[] = ['ref' => $wordRef, 'text' => $text];
+            $book = Book::findById($wordRef['bookId']);
+            $results[] = ['ref' => $wordRef, 'text' => $text, 'book' => $book];
         }
+        $usxCodes = \Config::get('mappings.usx');
+        $verseMappings = \Config::get('mappings.verses');
 
-        return view('wordoccurrences', ['words' => $results, 'word' => $word]);
+        return view('wordoccurrences', ['words' => $results, 'word' => $word, 'usxCodes' => $usxCodes, 'verseMappings' => $verseMappings]);
     }
 
     public function getByMj() {
