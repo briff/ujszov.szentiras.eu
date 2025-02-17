@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Előfordulások</h2>
-<h3>{{ word.szal }}</h3>
+<h3 class="greek">{{ word.szal }}</h3>
 <table class="table greek">
 {% for occurrence in words %}
 <tr>
@@ -10,7 +10,9 @@
         {% set verseId = occurrence.ref.bookName ~ occurrence.ref.chapter ~ "," ~ occurrence.ref.verse %}
         <a href="https://szentiras.hu/{{verseId}}" target="_blank"><sup>szentiras.hu</sup></a>
     {% for textPart in occurrence.text %}
-    {{ textPart.unic }}
+    {% if textPart.gk == word.gk %}<mark>{{ textPart.unic }}</mark>
+    {% else %}{{ textPart.unic }}{% endif %}
+
     {% endfor %}
     <br>
     {% for textPart in occurrence.text %}
