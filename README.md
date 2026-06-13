@@ -1,6 +1,7 @@
 # ujszov.szentiras.hu
 
-Az ujszov.hu oldal forráskódja
+Az ujszov.hu oldal forráskódja 2026. júniusig.
+A fejlesztők további munkája a [szentiras.eu](https://szentiras.eu) oldalon, illetve az [ujszov.szentiras.eu](https://ujszov.szentiras.eu) oldalon folyatódik.
 
 ## Fejlesztés
 
